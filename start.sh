@@ -9,59 +9,70 @@ MOONOPTIONS="F"
 # Automatically grab the amount of megabytes of RAM. If you'd like to lie-- I mean manually specify the amount of RAM, comment this line and uncomment the one below it.
 RAM=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024)))"M"
 #RAM="32036M"
-CITY="Plano"
+CITY="Dallas"
+ANIMATE=true
+SLEEP=0.05
 
 # Path to where you want to keep the wtr and moon files
 wtr_path="/home/conner/.scripts/wtr"
 moon_path="/home/conner/.scripts/moon"
 
-# This part creates the color bars. Feel free to change the numbers, this is your software now :)
+# This part creates the color bars. Feel free to change the numbers for the colors, this is your software now :)
+# If ANIMATE is true, this part animates. If not, it just displays the logo. You can also change the sleep time with $SLEEP.
 clear
-echo -e "\e[101m          \e[0m"
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m"
-echo -e "\e[103m        \e[0m"
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m"
-echo -e "\e[103m        \e[0m"
-echo -e "\e[102m      \e[0m"
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m"
-echo -e "\e[103m        \e[0m"
-echo -e "\e[102m      \e[0m"
-echo -e "\e[106m    \e[0m"
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m"
-echo -e "\e[103m        \e[0m"
-echo -e "\e[102m      \e[0m"
-echo -e "\e[106m    \e[0m"
-echo -e "\e[105m  \e[0m"
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m   $USER's $DEVICE"
-echo -e "\e[103m        \e[0m   "
-echo -e "\e[102m      \e[0m   "
-echo -e "\e[106m    \e[0m   "
-echo -e "\e[105m  \e[0m   "
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m   $USER's $DEVICE"
-echo -e "\e[103m        \e[0m     $DISTRO"
-echo -e "\e[102m      \e[0m   "
-echo -e "\e[106m    \e[0m   "
-echo -e "\e[105m  \e[0m   "
-
-sleep 0.03
-clear
-echo -e "\e[101m          \e[0m   $USER's $DEVICE"
-echo -e "\e[103m        \e[0m     $DISTRO"
-echo -e "\e[102m      \e[0m       "
-echo -e "\e[106m    \e[0m         $MODEL"
-echo -e "\e[105m  \e[0m           $RAM OK"
+if [ "$ANIMATE" = true ] ; then
+    echo -e "\e[101m          \e[0m"
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m"
+    echo -e "\e[103m        \e[0m"
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m"
+    echo -e "\e[103m        \e[0m"
+    echo -e "\e[102m      \e[0m"
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m"
+    echo -e "\e[103m        \e[0m"
+    echo -e "\e[102m      \e[0m"
+    echo -e "\e[106m    \e[0m"
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m"
+    echo -e "\e[103m        \e[0m"
+    echo -e "\e[102m      \e[0m"
+    echo -e "\e[106m    \e[0m"
+    echo -e "\e[105m  \e[0m"
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m   $USER's $DEVICE"
+    echo -e "\e[103m        \e[0m   "
+    echo -e "\e[102m      \e[0m   "
+    echo -e "\e[106m    \e[0m   "
+    echo -e "\e[105m  \e[0m   "
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m   $USER's $DEVICE"
+    echo -e "\e[103m        \e[0m     $DISTRO"
+    echo -e "\e[102m      \e[0m   "
+    echo -e "\e[106m    \e[0m   "
+    echo -e "\e[105m  \e[0m   "
+    sleep $SLEEP
+    clear
+    echo -e "\e[101m          \e[0m   $USER's $DEVICE"
+    echo -e "\e[103m        \e[0m     $DISTRO"
+    echo -e "\e[102m      \e[0m       "
+    echo -e "\e[106m    \e[0m         $MODEL"
+    echo -e "\e[105m  \e[0m           $RAM OK"
+else
+    clear
+    echo -e "\e[101m          \e[0m   $USER's $DEVICE"
+    echo -e "\e[103m        \e[0m     $DISTRO"
+    echo -e "\e[102m      \e[0m       "
+    echo -e "\e[106m    \e[0m         $MODEL"
+    echo -e "\e[105m  \e[0m           $RAM OK"
+fi
 
 echo "Hello, $USER."
 echo
