@@ -15,6 +15,8 @@ This script isn't anything terribly special. It:
 This script keeps a copy of the weather report in a specified directory, indicated by the $wtr_path and $moon_path variables. The script checks to see if its been updated in the last 12 hours, and if it hasn't it grabs a new copy. This way your weather report sort of stays cached for if you go offline for a bit. 
 
 ## Setup
+You'll need cURL for this script to work. Install it how you normally would. (For Deb/Ubuntu this is `sudo apt install curl`)
+
 To setup the script, simply download `start.sh`, then give it executable permissions with `chmod +x start.sh`. Open up the file and modify the variables to fit your setup. If nothing else, make sure you change `$wtr_path` and `$moon_path` so the program knows where to look.
 I like making a folder in my home directory called `.scripts` to house the start script and weather files. So, in that case, `$wtr_path` would be `/home/conner/.scripts/wtr` and `$moon_path` would be `/home/conner/.scripts/moon`. Don't worry about needing to create these files beforehand, the script will automatically create them. 
 
