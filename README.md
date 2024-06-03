@@ -18,6 +18,8 @@ This script keeps a copy of the weather report in a specified directory, indicat
 To setup the script, simply download `start.sh`, then give it executable permissions with `chmod +x start.sh`. Open up the file and modify the variables to fit your setup. If nothing else, make sure you change `$wtr_path` and `$moon_path` so the program knows where to look.
 I like making a folder in my home directory called `.scripts` to house the start script and weather files. So, in that case, `$wtr_path` would be `/home/conner/.scripts/wtr` and `$moon_path` would be `/home/conner/.scripts/moon`. Don't worry about needing to create these files beforehand, the script will automatically create them. 
 
+You can also modify the operands for wttr.in to make your weather report look different. [Refer to wttr.in's help page.](https://wttr.in/:help)
+
 ## Automation
 To run the script every time you open a terminal, simply point to the file at the bottom of your `.bashrc` file. For example, if I keep my script in /home/conner/.scripts/start.sh:
 
@@ -27,3 +29,8 @@ To run the script every time you open a terminal, simply point to the file at th
 (...)
 /home/conner/.scripts/start.sh
 ```
+
+## To-do
+- Make the script not attempt to replace the weather files if not connected to the internet
+- Automatically grab the user's name from the system
+- Figure out how to display other commands side by side (Eg: Displaying `fastfetch` and `fortune | cowsay` next to each other)
