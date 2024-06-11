@@ -118,20 +118,19 @@ fi
 if [ -e "$wtr_path" ]; then
     # Get the wtr file's modification time in seconds
     modification_time=$(date -r "$wtr_path" "+%s")
-    
+
     # Get the current time in second
     current_time=$(date "+%s")
-    
+
     # Calculate the time difference in seconds
     time_difference=$((current_time - modification_time))
-    
+
     # Check if the file is older than 12 hours (43200 seconds)
     if [ "$time_difference" -gt 43200 ]; then
         # If the time is different, download a new copy of the file
         curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
         curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
         # Easter egg-- Hello from the dev! Thanks for taking a look at my (shitty) software. <3 -CS
-        fi
     else
         # The file's already new enough, so we don't need to download an updated version.
         # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
