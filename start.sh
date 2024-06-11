@@ -146,20 +146,21 @@ else
     fi
 fi
 echo
-echo "Here's the weather in $CITY:"
-# Display the content of the files side by side
-# If you'd rather they display on top of each other, comment out this line and uncomment the two lines below it
-paste $wtr_path $moon_path | column -s $'\t' -t
-# cat $wtr_path
-# cat $moon_path
-
-# Calculate the time since last update in hours
-hours=$(( (current_time - modification_time) / 60 / 60))
-# This statement decides whether to say 'hour' or 'hours'
-if [ $hours = 1 ]; then
-    echo "Last updated: $hours hour ago"
-else
-    echo "Last updated: $hours hours ago"
+if [ -e "$wtr_path" ]; then
+    echo "Here's the weather in $CITY:"
+    # Display the content of the files side by side
+    # If you'd rather they display on top of each other, comment out this line and uncomment the two lines below it
+    paste $wtr_path $moon_path | column -s $'\t' -t
+    # cat $wtr_path
+    # cat $moon_path
+    # Calculate the time since last update in hours
+    hours=$(( (current_time - modification_time) / 60 / 60))
+    # This statement decides whether to say 'hour' or 'hours'
+    if [ $hours = 1 ]; then
+        echo "Last updated: $hours hour ago"
+    else
+        echo "Last updated: $hours hours ago"
+    fi
 fi
 
 # Put whatever other commands you want to run here.
