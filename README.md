@@ -33,6 +33,6 @@ To run the script every time you open a terminal, simply point to the file at th
 ```
 
 ## To-do
-- Make the script not attempt to replace the weather files if not connected to the internet
-- Automatically grab the user's name from the system
+~~- Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
+~~- Automatically grab the user's name from the system~~ (Fixed: Revision 5)
 - Figure out how to display other commands side by side (Eg: Displaying `fastfetch` and `fortune | cowsay` next to each other)
