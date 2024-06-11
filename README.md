@@ -29,10 +29,15 @@ To run the script every time you open a terminal, simply point to the file at th
 (.bashrc)
 
 (...)
+# Run the script on terminal start
 /home/conner/.scripts/start.sh
+# Map the script to a command so you can run it on command (In this example, this assigns the script to the `cons` command)
+alias cons="/home/conner/.scripts/start.sh"
 ```
+It's a good practice to point to the full path (starting with `/`) so it runs no matter where you open a terminal.
 
+## 
 ## To-do
-~~- Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
-~~- Automatically grab the user's name from the system~~ (Fixed: Revision 5)
+- ~~Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
+- ~~Automatically grab the user's name from the system~~ (Fixed: Revision 5)
 - Figure out how to display other commands side by side (Eg: Displaying `fastfetch` and `fortune | cowsay` next to each other)
