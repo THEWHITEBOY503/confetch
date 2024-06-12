@@ -41,3 +41,8 @@ It's a good practice to point to the full path (starting with `/`) so it runs no
 - ~~Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
 - ~~Automatically grab the user's name from the system~~ (Fixed: Revision 5)
 - Figure out how to display other commands side by side (Eg: Displaying `fastfetch` and `fortune | cowsay` next to each other)
+- Re-download the files if the size = 0 (failed download)
+- Automatically make sure curl is installed
+- Better macOS support
+  - Color bars don't work
+  - curl needs different syntax to work (Switch to this syntax for all distros?)
