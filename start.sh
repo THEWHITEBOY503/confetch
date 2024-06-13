@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hello :) Welcome to my cool showoff script
-# Revision: 5
+# Revision: 6
 
 ## --- Username Selection ---
 ## Grabs your username from Bash $USER variable
@@ -17,13 +17,13 @@ else
     USER=$USERGRAB
 fi
 
-# Configure your options here. These are the options I used on my MacBook, provided as an example/placeholder.
-USER="Conner"
-DEVICE="MacBook"
+# Configure your options here. These are the options I used on my laptop, provided as an example/placeholder.
+DEVICE="Laptop"
 DISTRO="Ubuntu Linux"
-MODEL="Custom Build PC"
+MODEL="Dell Latitude 7490"
 WTROPTIONS="2FnQ"
 MOONOPTIONS="F"
+WTRSIDE=true
 # Automatically grab the amount of megabytes of RAM. If you'd like to lie-- I mean manually specify the amount of RAM, comment this line and uncomment the one below it.
 RAM=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024)))"M"
 #RAM="32036M"
@@ -147,22 +147,25 @@ else
 fi
 echo
 if [ -e "$wtr_path" ]; then
-    echo "Here's the weather in $CITY:"
-    # Display the content of the files side by side
-    # If you'd rather they display on top of each other, comment out this line and uncomment the two lines below it
-    paste $wtr_path $moon_path | column -s $'\t' -t
-    # cat $wtr_path
-    # cat $moon_path
     # Calculate the time since last update in hours
     hours=$(( (current_time - modification_time) / 60 / 60))
     # This statement decides whether to say 'hour' or 'hours'
     if [ $hours = 1 ]; then
-        echo "Last updated: $hours hour ago"
+        LAST="(As of $hours hour ago)"
     else
-        echo "Last updated: $hours hours ago"
+        LAST="(As of $hours hours ago)"
+    fi
+    echo "Here's the weather in $CITY $LAST:"
+    # Display the content of the files side by side
+    # If you'd rather they display on top of each other, change $WTRSIDE at the top of the file to false
+    if [ "$WTRSIDE" = true ]; then
+        paste $wtr_path $moon_path | column -s $'\t' -t
+    else
+        cat $wtr_path
+        cat $moon_path
     fi
 fi
 
 # Put whatever other commands you want to run here.
 # neofetch
-fastfetch
+fastfetch 
