@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hello :) Welcome to my cool showoff script
-# Revision: 6
+# Revision: 7
 
 ## --- Username Selection ---
 ## Grabs your username from Bash $USER variable
@@ -23,6 +23,8 @@ DISTRO="Ubuntu Linux"
 MODEL="Dell Latitude 7490"
 WTROPTIONS="2FnQ"
 MOONOPTIONS="F"
+# If your distro doesn't support the `command` comand, enable this option to skip the curl check. Remember to install curl manually!
+skip_curl_check=false
 WTRSIDE=true
 # Automatically grab the amount of megabytes of RAM. If you'd like to lie-- I mean manually specify the amount of RAM, comment this line and uncomment the one below it.
 RAM=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024)))"M"
@@ -114,58 +116,93 @@ else
     online=false
 fi
 
-# Checking if the wtr and moon files exist
-if [ -e "$wtr_path" ]; then
-    # Get the wtr file's modification time in seconds
-    modification_time=$(date -r "$wtr_path" "+%s")
-
-    # Get the current time in second
-    current_time=$(date "+%s")
-
-    # Calculate the time difference in seconds
-    time_difference=$((current_time - modification_time))
-
-    # Check if the file is older than 12 hours (43200 seconds)
-    if [ "$time_difference" -gt 43200 ]; then
-        # If the time is different, download a new copy of the file
-        curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
-        curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
-        # Easter egg-- Hello from the dev! Thanks for taking a look at my (shitty) software. <3 -CS
+check_curl() {
+    # Check if curl is installed
+    if ! command -v curl &> /dev/null; then
+        echo "curl is not installed. Installing..."
+        # Determine the package manager based on the distribution
+        if command -v apt-get &> /dev/null; then
+            sudo apt-get install curl
+        elif command -v yum &> /dev/null; then
+            sudo yum install curl
+        elif command -v dnf &> /dev/null; then
+            sudo dnf install curl
+        elif command -v pacman &> /dev/null; then
+            sudo pacman -S curl
+        elif command -v brew &> /dev/null; then
+            sudo brew install curl
+        else
+            echo "Unable to determine the package manager. Please install curl manually, or set skip_curl_check to false at the top section of the file."
+            return 1
+        fi
     else
-        # The file's already new enough, so we don't need to download an updated version.
-        # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
-        echo "File is already new." &>/dev/null
+        echo "curl is already installed." &> /dev/null
     fi
+}
+if [ $skip_curl_check = true ]; then
+    CC=true
 else
-    # File not found, so downloading the file.
-    # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
-    echo "Downloading new moon and wtr files" &>/dev/null
-    if [ "$online" = true ]; then
-        curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
-        curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
-    fi
+    check_curl
 fi
-echo
-if [ -e "$wtr_path" ]; then
-    # Calculate the time since last update in hours
-    hours=$(( (current_time - modification_time) / 60 / 60))
-    # This statement decides whether to say 'hour' or 'hours'
-    if [ $hours = 1 ]; then
-        LAST="(As of $hours hour ago)"
-    else
-        LAST="(As of $hours hours ago)"
-    fi
-    echo "Here's the weather in $CITY $LAST:"
-    # Display the content of the files side by side
-    # If you'd rather they display on top of each other, change $WTRSIDE at the top of the file to false
-    if [ "$WTRSIDE" = true ]; then
-        paste $wtr_path $moon_path | column -s $'\t' -t
-    else
-        cat $wtr_path
-        cat $moon_path
-    fi
+if [ $? -eq 0 ]; then
+    CC=true
+else
+    CC=false
 fi
+# Skips past the weather part if curl is still not installed after the above script (Only likely if running for the first time and you dont have one of the package managers above)
+if [ "$CC" = true ]; then
+    # Checking if the wtr and moon files exist
+    if [ -e "$wtr_path" ]; then
+        # Get the wtr file's modification time in seconds
+        modification_time=$(date -r "$wtr_path" "+%s")
 
+        # Get the current time in second
+        current_time=$(date "+%s")
+
+        # Calculate the time difference in seconds
+        time_difference=$((current_time - modification_time))
+
+        # Check if the file is older than 12 hours (43200 seconds)
+        if [ "$time_difference" -gt 43200 ]; then
+            # If the time is different, download a new copy of the file
+            curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+            curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+            # Easter egg-- Hello from the dev! Thanks for taking a look at my (shitty) software. <3 -CS
+        else
+            # The file's already new enough, so we don't need to download an updated version.
+            # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
+            echo "File is already new." &>/dev/null
+        fi
+    else
+        # File not found, so downloading the file.
+        # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
+        echo "Downloading new moon and wtr files" &>/dev/null
+        if [ "$online" = true ]; then
+            curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+            curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+        fi
+    fi
+    echo
+    if [ -e "$wtr_path" ]; then
+        # Calculate the time since last update in hours
+        hours=$(( (current_time - modification_time) / 60 / 60))
+        # This statement decides whether to say 'hour' or 'hours'
+        if [ $hours = 1 ]; then
+            LAST="(As of $hours hour ago)"
+        else
+            LAST="(As of $hours hours ago)"
+        fi
+        echo "Here's the weather in $CITY $LAST:"
+        # Display the content of the files side by side
+        # If you'd rather they display on top of each other, change $WTRSIDE at the top of the file to false
+        if [ "$WTRSIDE" = true ]; then
+            paste $wtr_path $moon_path | column -s $'\t' -t
+        else
+            cat $wtr_path
+            cat $moon_path
+        fi
+    fi
+fi
 # Put whatever other commands you want to run here.
 # neofetch
 fastfetch 
