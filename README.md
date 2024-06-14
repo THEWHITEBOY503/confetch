@@ -15,7 +15,7 @@ This script isn't anything terribly special. It:
 This script keeps a copy of the weather report in a specified directory, indicated by the $wtr_path and $moon_path variables. The script checks to see if its been updated in the last 12 hours, and if it hasn't it grabs a new copy. This way your weather report sort of stays cached for if you go offline for a bit. 
 
 ## Setup
-You'll need cURL for this script to work. Install it how you normally would. (For Deb/Ubuntu this is `sudo apt install curl`)
+You'll need cURL for this script to work. This script has a function [`check_curl()`] for automatically installing it if you don't have it. If that function fails, wttr.in will not work and you'll need to manually install cURL to make it work. 
 
 To setup the script, simply download `start.sh`, then give it executable permissions with `chmod +x start.sh`. Open up the file and modify the variables to fit your setup. If nothing else, make sure you change `$wtr_path` and `$moon_path` so the program knows where to look.
 I like making a folder in my home directory called `.scripts` to house the start script and weather files. So, in that case, `$wtr_path` would be `/home/conner/.scripts/wtr` and `$moon_path` would be `/home/conner/.scripts/moon`. Don't worry about needing to create these files beforehand, the script will automatically create them. 
@@ -25,7 +25,7 @@ You can also modify the operands for wttr.in to make your weather report look di
 ## Automation
 To run the script every time you open a terminal, simply point to the file at the bottom of your `.bashrc` file. For example, if I keep my script in /home/conner/.scripts/start.sh:
 
-```
+```bash
 (.bashrc)
 
 (...)
@@ -36,7 +36,9 @@ alias cons="/home/conner/.scripts/start.sh"
 ```
 It's a good practice to point to the full path (starting with `/`) so it runs no matter where you open a terminal.
 
-## 
+
+
+
 ## To-do
 - ~~Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
 - ~~Automatically grab the user's name from the system~~ (Fixed: Revision 5)
@@ -47,3 +49,4 @@ It's a good practice to point to the full path (starting with `/`) so it runs no
 - Better macOS support
   - Color bars don't work
   - curl needs different syntax to work (Switch to this syntax for all distros?)
+- Automatically grab distro info
