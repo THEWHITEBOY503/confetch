@@ -37,7 +37,8 @@ alias cons="/home/conner/.scripts/start.sh"
 It's a good practice to point to the full path (starting with `/`) so it runs no matter where you open a terminal.
 
 
-
+## Customization
+For infomation on how to change the variables and make it your own, [you can check out our GitHub Wiki through this link](https://github.com/THEWHITEBOY503/bash-showoff-script/wiki/Customizing-bash%E2%80%90showoff%E2%80%90script), or by clicking "Wiki" at the top of this page.
 
 ## To-do
 - ~~Make the script not attempt to replace the weather files if not connected to the internet~~ (Fixed: Revision 5)
