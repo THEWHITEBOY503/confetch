@@ -1,8 +1,10 @@
 # bash-showoff-script
 A neat little bash script to make opening a terminal a little more exciting.
 
+<img width="1201" alt="Screenshot 2024-07-19 at 17 19 58" src="https://github.com/user-attachments/assets/7b4118a9-5e9d-40c8-b965-79873803ca0d">
+
 ![simplescreenrecorder-2024-06-03_12 28 27-ezgif com-video-to-gif-converter(1)](https://github.com/THEWHITEBOY503/bash-showoff-script/assets/28698926/e9a746f4-b6da-4a47-a4f8-32b64642d364)
-![image](https://github.com/THEWHITEBOY503/bash-showoff-script/assets/28698926/482bc92d-5653-426a-98c9-01dc581885ff)
+
 
 This script isn't anything terribly special. It:
 
@@ -45,9 +47,9 @@ For infomation on how to change the variables and make it your own, [you can che
 - ~~Automatically grab the user's name from the system~~ (Fixed: Revision 5)
 - Figure out how to display other commands side by side (Eg: Displaying `fastfetch` and `fortune | cowsay` next to each other)
   - I tried using the same method I use for wtr and moon, but it came out terribly.
-- Re-download the files if the size = 0 (failed download)
+- ~~Re-download the files if the size = 0 (failed download)~~ (Fixed: Revision 8)
 - ~~Automatically make sure curl is installed~~ (Fixed: Revision 7)
 - Better macOS support
   - Color bars don't work
   - curl needs different syntax to work (Switch to this syntax for all distros?)
-- Automatically grab distro info
+- ~~Automatically grab distro info~~ (Fixed: Revision 8)
