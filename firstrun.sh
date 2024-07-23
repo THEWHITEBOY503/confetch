@@ -57,7 +57,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 
 USERGRAB=1
 
-DEVICE="Laptop"
+DEVICE="Computer"
 
 ### ---Distro Selection ---
 ### If you set DISTRO=true, it will grab your distro name using /etc/issue
