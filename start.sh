@@ -152,9 +152,14 @@ if [ -e "$wtr_path" ]; then
             if [ $CITY = "null" ] ; then
                 echo "" > $wtr_path
             else
+                echo -n "Downloading the weather..."
                 curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+                echo -ne "\r\033[K"
             fi
+            echo -n "Downloading the moon phase..."
             curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+            echo -ne "\r\033[K"
+            echo -n "                                          "
             if [ $CITY = "null" ]; then
                 FILE_SIZE=$(stat --format=%s "$moon_path")
             else
@@ -194,9 +199,15 @@ else
         if [ $CITY = "null" ] ; then
             echo "" > $wtr_path
         else
+            echo -n "Downloading the weather..."
             curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+            echo -ne "\r\033[K"
         fi
+        echo -n "Downloading the moon phase..."
         curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+        echo -ne "\r\033[K"
+        echo -n "                                    "
+        echo -ne "\r\033[K"
         if [ $CITY = "null" ]; then
             FILE_SIZE=$(stat --format=%s "$moon_path")
         else
