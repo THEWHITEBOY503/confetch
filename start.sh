@@ -37,7 +37,17 @@ else
     fi
 fi
 if [ "$MODEL" = true ] ; then
-    tMODEL=$(cat /sys/devices/virtual/dmi/id/product_name)
+    if ! cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null; then
+        if grep -q -i "Microsoft" /proc/sys/kernel/osrelease || grep -q -i "WSL" /proc/sys/kernel/osrelease; then
+            tMODEL="Windows Subsystem for Linux"
+        else
+            # Failed to grab the model identifier. (Probably running on WSL). 
+            tMODEL="Computer"
+        EF1="Warning: Model grab failed. Defaulting to "Computer"; Set MODEL manually in config.txt to dismiss this message."
+        fi
+    else
+        tMODEL=$(cat /sys/devices/virtual/dmi/id/product_name)
+    fi
 else
     tMODEL=$MODEL
 fi
@@ -236,6 +246,9 @@ if [ -e "$wtr_path" ]; then
         cat $wtr_path
         cat $moon_path
     fi
+fi
+if [ "$EF1" ]; then
+    echo $EF1
 fi
 # Modify this file to execute your own commands
 source ~/.config/confetch/commands.txt
