@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hello :) Welcome to my cool showoff script
-# Revision: 8
+# Revision: 8-1
 FILES=$HOME/.config/confetch
 # Configure your options here. These are the options I used on my laptop, provided as an example/placeholder.
 if [ -e $HOME/.config/confetch/consent ] ; then
@@ -41,7 +41,7 @@ if [ "$MODEL" = true ] ; then
         if grep -q -i "Microsoft" /proc/sys/kernel/osrelease || grep -q -i "WSL" /proc/sys/kernel/osrelease; then
             tMODEL="Windows Subsystem for Linux"
         else
-            # Failed to grab the model identifier. (Probably running on WSL). 
+            # Failed to grab the model identifier. (Probably running on WSL).
             tMODEL="Computer"
         EF1="Warning: Model grab failed. Defaulting to "Computer"; Set MODEL manually in config.txt to dismiss this message."
         fi
@@ -64,6 +64,12 @@ fi
 # Path to where you want to keep the wtr and moon files
 wtr_path="$FILES/wtr"
 moon_path="$FILES/moon"
+
+if [ $RAM = true ] ; then
+    tRAM=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024)))"M"
+else
+    tRAM=$RAM
+fi
 
 # This part creates the color bars. Feel free to change the numbers for the colors, this is your software now :)
 # If ANIMATE is true, this part animates. If not, it just displays the logo. You can also change the sleep time with $SLEEP.
@@ -112,23 +118,20 @@ if [ "$ANIMATE" = true ] ; then
     echo -e "\e[103m        \e[0m     $tDISTRO"
     echo -e "\e[102m      \e[0m       "
     echo -e "\e[106m    \e[0m         $tMODEL"
-    echo -e "\e[105m  \e[0m           $RAM OK"
+    echo -e "\e[105m  \e[0m           $tRAM OK"
 else
     clear
     echo -e "\e[101m          \e[0m   $tUSER's $DEVICE"
     echo -e "\e[103m        \e[0m     $tDISTRO"
     echo -e "\e[102m      \e[0m       "
     echo -e "\e[106m    \e[0m         $tMODEL"
-    echo -e "\e[105m  \e[0m           $RAM OK"
+    echo -e "\e[105m  \e[0m           $tRAM OK"
 fi
 
 echo "Hello, $tUSER."
 echo
-TODAY=$(date +"Today's date is %A, %B %d %Y.")
-TIMENOW=$(date +"The local time is %r")
 echo $TODAY
 echo $TIMENOW
-echo
 # Function to check if the computer is online so it doesn't waste time trying to redownload the weather file
 check_online() {
     if ping -c 1 $1 &> /dev/null; then
@@ -189,10 +192,12 @@ if [ -e "$wtr_path" ]; then
             FILE_SIZE=$(stat --format=%s "$wtr_path")
         fi
         if [ "$FILE_SIZE" -lt 1700 ]; then
-            if [ $CITY = "null" ]; then
-                curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
-            else
-                curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+            if [ "$online" = true ]; then
+                if [ $CITY = "null" ]; then
+                    curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+                else
+                    curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+                fi
             fi
         fi
     fi
@@ -214,10 +219,12 @@ else
         fi
         # Check if the file size is as expected. If not, the download probably failed, so try one more time.
         if [ "$FILE_SIZE" -lt 1700 ]; then
-            if [ $CITY = "null" ]; then
-                curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
-            else
-                curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+            if [ "$online" = true ]; then
+                if [ $CITY = "null" ]; then
+                    curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
+                else
+                    curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
+                fi
             fi
         fi
     fi
@@ -235,7 +242,11 @@ if [ -e "$wtr_path" ]; then
     if [ $CITY = "null" ] ; then
         echo "Moon phase: $LAST"
     else
-        echo "Here's the weather in $CITY $LAST:"
+        if [ $hidecity = true ] ; then
+            echo "Here's the weather $LAST:"
+        else
+            echo "Here's the weather in $CITY $LAST:"
+        fi
     fi
     # Display the content of the files side by side
     # If you'd rather they display on top of each other, change $WTRSIDE at the top of the file to false
