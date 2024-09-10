@@ -31,19 +31,19 @@ else
     # Set this to true or false if you want 'Linux' appended to the end of your script based off of $ISLINUX.
     APPEND=true
     if [ $APPEND = true ] ; then
-        if [ $ISLINUX = true ] ; then 
+        if [ $ISLINUX = true ] ; then
             tDISTRO="$tDISTRO Linux"
         fi
     fi
 fi
 if [ "$MODEL" = true ] ; then
-    if ! cat /sys/devices/virtual/dmi/id/product_name 2>/dev/null; then
+    if ! cat /sys/devices/virtual/dmi/id/product_name &>/dev/null; then
         if grep -q -i "Microsoft" /proc/sys/kernel/osrelease || grep -q -i "WSL" /proc/sys/kernel/osrelease; then
             tMODEL="Windows Subsystem for Linux"
         else
             # Failed to grab the model identifier. (Probably running on WSL).
             tMODEL="Computer"
-        EF1="Warning: Model grab failed. Defaulting to "Computer"; Set MODEL manually in config.txt to dismiss this message."
+            EF1="Warning: Model grab failed. Defaulting to \"Computer\"; Set MODEL manually in config.txt to dismiss this message."
         fi
     else
         tMODEL=$(cat /sys/devices/virtual/dmi/id/product_name)
@@ -193,7 +193,7 @@ if [ -e "$wtr_path" ]; then
         fi
         if [ "$FILE_SIZE" -lt 1700 ]; then
             if [ "$online" = true ]; then
-                if [ $CITY = "null" ]; then
+                if [ "$CITY" = "null" ]; then
                     curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
                 else
                     curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
@@ -206,7 +206,7 @@ else
     # Remove the &>/dev/null if you want it to log on the splash screen (for whatever reason)
     echo "Downloading new moon and wtr files" &>/dev/null
     if [ "$online" = true ]; then
-        if [ $CITY = "null" ] ; then
+        if [ "$CITY" = "null" ] ; then
             echo "" > $wtr_path
         else
             curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
@@ -220,7 +220,7 @@ else
         # Check if the file size is as expected. If not, the download probably failed, so try one more time.
         if [ "$FILE_SIZE" -lt 1700 ]; then
             if [ "$online" = true ]; then
-                if [ $CITY = "null" ]; then
+                if [ "$CITY" = "null" ]; then
                     curl -s wttr.in/moon?$MOONOPTIONS > $moon_path
                 else
                     curl -s wttr.in/$CITY?$WTROPTIONS > $wtr_path
@@ -239,10 +239,10 @@ if [ -e "$wtr_path" ]; then
     else
         LAST="(As of $hours hours ago)"
     fi
-    if [ $CITY = "null" ] ; then
+    if [ "$CITY" = "null" ] ; then
         echo "Moon phase: $LAST"
     else
-        if [ $hidecity = true ] ; then
+        if [ "$hidecity" = true ] ; then
             echo "Here's the weather $LAST:"
         else
             echo "Here's the weather in $CITY $LAST:"
@@ -251,7 +251,7 @@ if [ -e "$wtr_path" ]; then
     # Display the content of the files side by side
     # If you'd rather they display on top of each other, change $WTRSIDE at the top of the file to false
     if [ "$WTRSIDE" = true ]; then
-        
+
         paste $wtr_path $moon_path | column -s $'\t' -t
     else
         cat $wtr_path
