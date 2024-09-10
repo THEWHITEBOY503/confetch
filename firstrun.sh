@@ -43,73 +43,8 @@ CONFIG_FILE="$CONFIG_DIR/config.txt"
 mkdir -p "$CONFIG_DIR"
 # Generate example config file
 if [ ! -f "$CONFIG_FILE" ]; then
-    cat <<EOL > "$CONFIG_FILE"
-# Hello! For more info about this file, see https://github.com/THEWHITEBOY503/confetch/wiki/Customizing-bash-showoff-script/
+    cp /usr/bin/confetch_bin/defconfig.txt "$CONFIG_FILE"
 
-# Missing something? It's not recommended, but you can modify the executable, since it's just bash.
-# sudo nano /usr/bin/confetch_bin/start.sh
-# (or whatever your text editor of choice is)
-
-### --- Username Selection ---
-### Grabs your username from Bash conner variable
-### Example UNIX username: conner
-### USERGRAB=1 to capitalize the first letter. Output: Conner
-### USERGRAB=2 to keep the username as it is. Output: conner
-### Add quotation marks to manually specify a name. Output: HamBurger
-
-USERGRAB=1
-
-DEVICE="Laptop"
-
-### ---Distro Selection ---
-### If you set DISTRO=true, it will grab your distro name using /etc/issue
-### Otherwise, if you set it to a string (eg: ), the distro value on the output will be whatever your string is.
-### If you set ISLINUX=true, it appends "Linux" to your distro name.
-### Example 1: ISLINUX=true DISTRO=true   Output: Ubuntu Linux
-### Example 2: ISLINUX=true DISTRO="Hamburger"    Output: Hamburger Linux
-### Example 3: ISLINUX=false DISTRO=true    Output: Ubuntu
-
-ISLINUX=true
-DISTRO=true
-
-### --- Model Selection ---
-### Grabs your hardware name
-### Example: Latitude 7490, Parallels ARM Virtual Machine, etc
-### If set to 'true' (no quotations), it will grab the model name from /sys/devices/virtual/dmi/id/product_name
-### To set the value manually, simply encase it in quotation marks, "like this".
-
-MODEL=true
-
-### --- Weather Settings ---
-### To choose operands for wttr.in, visit https://wttr.in/:help
-
-WTROPTIONS="2FnQ"
-MOONOPTIONS="F"
-## If true, weather and moon display side by side. If false, weather displays above moon.
-WTRSIDE=true
-
-### --- RAM Display ---
-## If you'd like to lie- I mean, manually specify your RAM count, simply set RAM="123456M" or RAM="16G" or whatever
-#RAM=15861M
-RAM=true
-
-### --- Animation settings ---
-ANIMATE=true
-## Seconds between drawing frames for animation.
-SLEEP=0.05
-
-# Here you can change the date and time messages and date variables. 
-TODAY=$(date +"Today's date is %A, %B %d %Y.")
-TIMENOW=$(date +"The local time is %r")
-
-# Hides your city name in your output
-hidecity=false
-
-# To set which commands appear after the weather, add these commands in commands.txt
-# Sorry if you were expecting to add them here. :(
-# If you add commands here, they won't show up, since this file is sources before the animation happens.
-
-EOL
 fi
 
 center_bold_text "Welcome to confetch!"
