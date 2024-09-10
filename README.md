@@ -44,3 +44,4 @@ For infomation on how to change the variables and make it your own, [you can che
   - Color bars don't work
   - curl needs different syntax to work (Switch to this syntax for all distros?)
 - ~~Automatically grab distro info~~ (Fixed: Revision 8)
+- Update config file with update
