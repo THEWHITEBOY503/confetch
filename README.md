@@ -45,3 +45,8 @@ For infomation on how to change the variables and make it your own, [you can che
   - curl needs different syntax to work (Switch to this syntax for all distros?)
 - ~~Automatically grab distro info~~ (Fixed: Revision 8)
 - Update config file with update
+
+## Tips & tricks!
+
+If you have `lolcat` installed, try piping the output through lolcat!
+![image](https://github.com/user-attachments/assets/644e05c7-b545-43f1-aa35-9a0484915b89)
